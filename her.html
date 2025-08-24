@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For You 💖</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Comic Sans MS', 'Poppins', cursive;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(45deg, #ffd6ec, #ffe6f0, #fff0f5);
+      background-size: 600% 600%;
+      animation: gradientShift 10s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #ff66a3;
+      margin-bottom: 30px;
+      opacity: 0;
+      transform: scale(0.3) rotate(-10deg);
+      transition: all 1s ease-in-out;
+      text-align: center;
+      text-shadow: 2px 2px #ffcce6;
+      max-width: 90%;
+    }
+
+    .visible {
+      opacity: 1;
+      transform: scale(1.2) rotate(0deg);
+    }
+
+    .btn {
+      background-color: #ff99cc;
+      border: none;
+      color: white;
+      padding: 15px 40px;
+      margin: 10px;
+      border-radius: 40px;
+      font-size: 1.4rem;
+      cursor: pointer;
+      box-shadow: 0 5px 25px rgba(255, 105, 180, 0.6);
+      transition: all 0.3s ease;
+      position: absolute;
+      z-index: 10;
+    }
+
+    .btn:hover {
+      transform: scale(1.1) rotate(-2deg);
+      background-color: #ff66a3;
+      text-shadow: 0 0 10px #fff;
+    }
+
+    .floating {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: floaty 8s linear infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes floaty {
+      0% {
+        transform: translateY(100vh) scale(0.5);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    .heart {
+      width: 30px;
+      height: 30px;
+      background: url('https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif');
+      background-size: cover;
+    }
+
+    .bubble {
+      width: 20px;
+      height: 20px;
+      background: rgba(255, 182, 193, 0.4);
+      border: 2px solid white;
+    }
+
+    .sparkle {
+      width: 15px;
+      height: 15px;
+      background: radial-gradient(circle, red, #ffc0cb);
+      box-shadow: 0 0 10px #ed9999;
+    }
+
+    .star {
+      width: 10px;
+      height: 10px;
+      background: yellow;
+      border-radius: 50%;
+      box-shadow: 0 0 15px white;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.9rem;
+      color: #ff99cc;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="message">I loveee yooouuu soooo muchhhhh baccheeeee 💖😭</h1>
+  <h1 id="final-message" style="display:none;">I Loveeeeeee youuuuu tooooo mereeeee baccheeeeeee 💞😭</h1>
+
+  <button class="btn" id="loveBtn" onclick="handleClick()">Click me 🥺</button>
+
+  <div id="effects-container"></div>
+
+  <footer>😭💕</footer>
+
+  <script>
+    const message = document.getElementById('message');
+    const finalMessage = document.getElementById('final-message');
+    const btn = document.getElementById('loveBtn');
+    const effectsContainer = document.getElementById('effects-container');
+
+    let clickCount = 0;
+    const prompts = [
+      "Do you love me? 🥺",
+      "sure? 😳",
+      "Really really sure? 😶‍🌫️",
+      "Pinky promise?? 💞",
+      "Last chance hai descision badalne ka 😏",
+      "Theek hai fir... 😭💖"
+    ];
+
+    function handleClick() {
+      if (clickCount < 5) {
+        btn.innerText = prompts[clickCount];
+        moveButton();
+        clickCount++;
+      } else {
+        btn.style.display = 'none';
+        message.style.display = 'none';
+        finalMessage.style.display = 'block';
+        finalMessage.classList.add('visible');
+        createEffects(60);
+        createStars(50);
+      }
+    }
+
+    function moveButton() {
+      const x = Math.random() * (window.innerWidth - 150);
+      const y = Math.random() * (window.innerHeight - 100);
+      btn.style.left = `${x}px`;
+      btn.style.top = `${y}px`;
+    }
+
+    function createEffects(count) {
+      for (let i = 0; i < count; i++) {
+        const el = document.createElement('div');
+        const type = ['heart', 'bubble', 'sparkle'][Math.floor(Math.random() * 3)];
+        el.classList.add('floating', type);
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.animationDuration = (4 + Math.random() * 3) + 's';
+        el.style.top = Math.random() * 100 + 'vh';
+        effectsContainer.appendChild(el);
+        setTimeout(() => el.remove(), 8000);
+      }
+    }
+
+    function createStars(count) {
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.classList.add('floating', 'star');
+        star.style.left = Math.random() * 100 + 'vw';
+        star.style.animationDuration = (2 + Math.random() * 3) + 's';
+        star.style.top = Math.random() * 100 + 'vh';
+        effectsContainer.appendChild(star);
+        setTimeout(() => star.remove(), 6000);
+      }
+    }
+  </script>
+</body>
+</html>
